@@ -18,9 +18,11 @@ export class UserService {
   // Podemos devolver la promesa como tal, asi el controlador sera
   // el que se encargue de manejar el codigo asincrono
   public async saveUser(user: CreateUserDto): Promise<User> {
-    const check = await this.userRepository.findBy({ username: user.username });
+    const userExists = await this.userRepository.findBy({
+      username: user.username,
+    });
 
-    if (check) {
+    if (userExists) {
       throw new ConflictException(`The email ${user.username} already in use`);
     }
 
@@ -33,33 +35,33 @@ export class UserService {
   }
 
   public async findOneUser(id: string): Promise<User> {
-    const check = await this.userRepository.findOneBy({ id });
+    const userExists = await this.userRepository.findOneBy({ id });
 
-    if (!check) {
+    if (!userExists) {
       throw new NotFoundException('User not found');
     }
 
-    return check;
+    return userExists;
   }
 
   public async deleteOneUser(id: string): Promise<User> {
-    const check = await this.userRepository.findOneBy({ id });
+    const userExists = await this.userRepository.findOneBy({ id });
 
-    if (!check) {
+    if (!userExists) {
       throw new NotFoundException('User not found');
     }
 
     await this.userRepository.delete(id);
-    return check;
+    return userExists;
     // Delete no devuelve el elemento eliminado, devuelve las
     // filas que han sido afectadas por la eliminacion como un
     // dato de tipo DeleteResult
   }
 
   public async updateUser(id: string, user: UpdateUserDto): Promise<User> {
-    const check = await this.userRepository.findOneBy({ id });
+    const userExists = await this.userRepository.findOneBy({ id });
 
-    if (!check) {
+    if (!userExists) {
       throw new NotFoundException('User not found');
     }
 
