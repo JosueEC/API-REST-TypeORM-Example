@@ -4,10 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>){}
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) {}
 
   // Podemos devolver la promesa como tal, asi el controlador sera
   // el que se encargue de manejar el codigo asincrono
@@ -36,5 +39,17 @@ export class UserService {
     // Delete no devuelve el elemento eliminado, devuelve las
     // filas que han sido afectadas por la eliminacion como un
     // dato de tipo DeleteResult
+  }
+
+  public async updateUser(id: string, user: UpdateUserDto): Promise<User> {
+    const check = await this.userRepository.findOneBy({ id });
+
+    if (!check) {
+      throw new NotFoundException('USER_NOT_FOUND');
+    }
+
+    await this.userRepository.update(id, user);
+
+    return await this.userRepository.findOneBy({ id });
   }
 }
