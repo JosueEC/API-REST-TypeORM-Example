@@ -1,4 +1,4 @@
-import { UserRole } from "../types/user-role.enum";
+import { UserRole } from '../types/user-role.enum';
 
 export class UpdateUserDto {
   username?: string;

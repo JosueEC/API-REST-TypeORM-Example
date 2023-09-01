@@ -13,7 +13,7 @@ export class User {
   password: string;
 
   @Column({ enum: UserRole })
-  role: UserRole
+  role: UserRole;
 
   @Column({ type: 'date', default: () => 'CURRENT_DATE' })
   createdAt: Date;
