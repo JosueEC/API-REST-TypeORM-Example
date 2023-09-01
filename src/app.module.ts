@@ -15,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       // pide agregar todas las clases que van a ser consideras como
       // entidades, esta es una forma de establecer que tome como
       // entidades a cualquier archivo con la extension que le indiquemos
+      synchronize: true,
     }),
     UserModule,
   ],

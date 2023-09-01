@@ -3,7 +3,7 @@ import { UserRole } from './types/user-role.enum';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ type: 'varchar', length: 100, unique: true })
@@ -18,6 +18,6 @@ export class User {
   @Column({ type: 'date', default: () => 'CURRENT_DATE' })
   createdAt: Date;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 'NONE' })
   authStrategy: string;
 }
