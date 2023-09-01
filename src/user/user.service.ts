@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { NotFoundException } from '@nestjs/common/exceptions';
+import {
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -14,24 +17,36 @@ export class UserService {
 
   // Podemos devolver la promesa como tal, asi el controlador sera
   // el que se encargue de manejar el codigo asincrono
-  public saveUser(user: CreateUserDto): Promise<User> {
+  public async saveUser(user: CreateUserDto): Promise<User> {
+    const check = await this.userRepository.findBy({ username: user.username });
+
+    if (check) {
+      throw new ConflictException(`The email ${user.username} already in use`);
+    }
+
     const userCreated = this.userRepository.create(user);
     return this.userRepository.save(userCreated);
   }
 
-  public findUser(): Promise<User[]> {
+  public async findUser(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  public findOneUser(id: string): Promise<User> {
-    return this.userRepository.findOneBy({ id });
+  public async findOneUser(id: string): Promise<User> {
+    const check = await this.userRepository.findOneBy({ id });
+
+    if (!check) {
+      throw new NotFoundException('User not found');
+    }
+
+    return check;
   }
 
   public async deleteOneUser(id: string): Promise<User> {
     const check = await this.userRepository.findOneBy({ id });
 
     if (!check) {
-      throw new NotFoundException('USER_NOT_FOUND');
+      throw new NotFoundException('User not found');
     }
 
     await this.userRepository.delete(id);
@@ -45,7 +60,7 @@ export class UserService {
     const check = await this.userRepository.findOneBy({ id });
 
     if (!check) {
-      throw new NotFoundException('USER_NOT_FOUND');
+      throw new NotFoundException('User not found');
     }
 
     await this.userRepository.update(id, user);
