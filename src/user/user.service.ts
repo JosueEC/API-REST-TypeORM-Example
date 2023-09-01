@@ -18,4 +18,8 @@ export class UserService {
   public findUser(): Promise<User[]> {
     return this.userRepository.find();
   }
+
+  public findOneUser(id: string): Promise<User> {
+    return this.userRepository.findOneBy({ id });
+  }
 }
