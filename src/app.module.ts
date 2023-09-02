@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostModule } from './post/post.module';
+import { PublicationModule } from './publication/publication.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { PostModule } from './post/post.module';
       synchronize: true,
     }),
     UserModule,
-    PostModule,
+    PublicationModule,
   ],
   controllers: [],
   providers: [],
