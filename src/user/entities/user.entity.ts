@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { UserRole } from '../types/user-role.enum';
 import { Profile } from './profile.entity';
-import { Post } from '../../post/entities/post.entity';
+import { Publication } from 'src/publication/entities/publication.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -44,6 +44,6 @@ export class User {
   // Se debe establecer con que columna de la tabla relacionada es
   // con la que se establece la relacion, en este caso es la columna
   // author, que es donde se creo la relacion en la entidad Post
-  @OneToMany(() => Post, (post) => post.author)
-  posts: Post[];
+  @OneToMany(() => Publication, (publication) => publication.author)
+  posts: Publication[];
 }
