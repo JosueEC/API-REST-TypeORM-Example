@@ -30,6 +30,8 @@ export class PublicationService {
   }
 
   public async findAll(): Promise<Publication[]> {
-    return this.publicationRepository.find();
+    return this.publicationRepository.find({
+      relations: ['author'],
+    });
   }
 }
