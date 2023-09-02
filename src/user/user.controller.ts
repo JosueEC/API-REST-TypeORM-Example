@@ -19,18 +19,18 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  public async postUser(@Body() user: CreateUserDto): Promise<User> {
-    return await this.userService.saveUser(user);
+  public async createUser(@Body() user: CreateUserDto): Promise<User> {
+    return await this.userService.create(user);
   }
 
   @Get()
-  public async getUser(): Promise<User[]> {
-    return await this.userService.findUser();
+  public async getAllUsers(): Promise<User[]> {
+    return await this.userService.findAll();
   }
 
   @Get(':id')
   public async getOneUser(@Param('id') id: string): Promise<User> {
-    return this.userService.findOneUser(id);
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')
@@ -38,14 +38,14 @@ export class UserController {
     @Param('id') id: string,
     @Body() user: UpdateUserDto,
   ): Promise<User> {
-    return this.userService.updateUser(id, user);
+    return this.userService.update(id, user);
   }
 
   // @Param(':id', ParseIntPipe) --> para parsear datos
   @Delete(':id')
   @HttpCode(204)
-  public async deleteOneUser(@Param('id') id: string): Promise<User> {
-    return await this.userService.deleteOneUser(id);
+  public async deleteUser(@Param('id') id: string): Promise<User> {
+    return await this.userService.delete(id);
   }
 
   @Post('/profile/:id')

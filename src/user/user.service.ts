@@ -21,7 +21,7 @@ export class UserService {
 
   // Podemos devolver la promesa como tal, asi el controlador sera
   // el que se encargue de manejar el codigo asincrono
-  public async saveUser(user: CreateUserDto): Promise<User> {
+  public async create(user: CreateUserDto): Promise<User> {
     const userExists = await this.userRepository.findOneBy({
       username: user.username,
     });
@@ -34,13 +34,13 @@ export class UserService {
     return this.userRepository.save(userCreated);
   }
 
-  public async findUser(): Promise<User[]> {
+  public async findAll(): Promise<User[]> {
     return this.userRepository.find({
       relations: ['publications'],
     });
   }
 
-  public async findOneUser(id: string): Promise<User> {
+  public async findOne(id: string): Promise<User> {
     const userExists = await this.userRepository.findOne({
       where: {
         id: id,
@@ -55,7 +55,7 @@ export class UserService {
     return userExists;
   }
 
-  public async deleteOneUser(id: string): Promise<User> {
+  public async delete(id: string): Promise<User> {
     const userExists = await this.userRepository.findOneBy({ id });
 
     if (!userExists) {
@@ -69,7 +69,7 @@ export class UserService {
     // dato de tipo DeleteResult
   }
 
-  public async updateUser(id: string, user: UpdateUserDto): Promise<User> {
+  public async update(id: string, user: UpdateUserDto): Promise<User> {
     const userExists = await this.userRepository.findOneBy({ id });
 
     if (!userExists) {
