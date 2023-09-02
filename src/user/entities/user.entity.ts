@@ -45,5 +45,5 @@ export class User {
   // con la que se establece la relacion, en este caso es la columna
   // author, que es donde se creo la relacion en la entidad Post
   @OneToMany(() => Publication, (publication) => publication.author)
-  posts: Publication[];
+  publications: Publication[];
 }

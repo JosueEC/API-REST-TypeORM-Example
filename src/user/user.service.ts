@@ -35,7 +35,9 @@ export class UserService {
   }
 
   public async findUser(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      relations: ['publications'],
+    });
   }
 
   public async findOneUser(id: string): Promise<User> {
