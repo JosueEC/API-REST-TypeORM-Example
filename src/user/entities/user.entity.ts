@@ -4,9 +4,11 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { UserRole } from '../types/user-role.enum';
 import { Profile } from './profile.entity';
+import { Post } from '../../post/entities/post.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -28,11 +30,20 @@ export class User {
   @Column({ nullable: true, default: 'NONE' })
   authStrategy: string;
 
-  @OneToOne(() => Profile)
-  @JoinColumn()
-  profile: Profile;
   // Esta es la forma en la que se establece una relacion 1:1 en
   // typeORM. en este caso la relacion s establece en la clase
   // user, por lo que la columna con el idProfile sera creada en
   // la entidad de esta clase.
+  @OneToOne(() => Profile)
+  @JoinColumn()
+  profile: Profile;
+
+  // Esta es una de las partes para establecer una relacion 1:n
+  // aqui establecemos que un usuario esta relacionado a muchos
+  // posts.
+  // Se debe establecer con que columna de la tabla relacionada es
+  // con la que se establece la relacion, en este caso es la columna
+  // author, que es donde se creo la relacion en la entidad Post
+  @OneToMany(() => Post, (post) => post.author)
+  posts: Post[];
 }
