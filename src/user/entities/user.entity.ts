@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { UserRole } from '../types/user-role.enum';
+import { Profile } from './profile.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -20,4 +27,12 @@ export class User {
 
   @Column({ nullable: true, default: 'NONE' })
   authStrategy: string;
+
+  @OneToOne(() => Profile)
+  @JoinColumn()
+  profile: Profile;
+  // Esta es la forma en la que se establece una relacion 1:1 en
+  // typeORM. en este caso la relacion s establece en la clase
+  // user, por lo que la columna con el idProfile sera creada en
+  // la entidad de esta clase.
 }
