@@ -15,7 +15,7 @@ export class PublicationController {
   }
 
   @Get()
-  public async findPublications(): Promise<Publication> {
+  public async findPublications(): Promise<Publication[]> {
     return this.publicationService.findAll();
   }
 }

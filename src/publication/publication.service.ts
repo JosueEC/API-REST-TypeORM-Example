@@ -9,7 +9,7 @@ import { UserService } from 'src/user/user.service';
 export class PublicationService {
   constructor(
     @InjectRepository(Publication)
-    private readonly publicationRepository: Repository<Publication>,
+    private publicationRepository: Repository<Publication>,
     private readonly userService: UserService,
   ) {}
 
