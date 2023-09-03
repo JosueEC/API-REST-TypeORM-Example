@@ -16,7 +16,7 @@ export class PublicationService {
   public async create(publication: CreatePublicationDto): Promise<Publication> {
     // Primero verificamos que el usuario al que se quiere asociar
     // el post exista
-    const userFound = await this.userService.findOneUser(publication.authorId);
+    const userFound = await this.userService.findOne(publication.authorId);
 
     if (!userFound) {
       throw new NotFoundException('User not found');
